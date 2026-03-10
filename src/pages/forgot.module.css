@@ -34,16 +34,24 @@
     height: 52px;
 }
 
-/* fieldinput has a possibility of having an error state */
 .buttonContainer {
-    margin-top: 25px; 
+    margin-top: 25px;
     flex-grow: 1;
 }
 
+.successMessage {
+    margin-top: 48px;
+    padding: 24px 32px;
+    background: var(--standard-light-grey);
+    border-left: 4px solid var(--standard-gold);
+    font-size: 15px;
+    line-height: 26px;
+}
+
+.successMessage p { margin-bottom: 8px; }
+
 @media (max-width: 800px) {
-    .gridContainer {
-        display: none;
-    }
+    .gridContainer { display: none; }
 
     .root {
         padding: 0px 16px;
@@ -71,7 +79,5 @@
         margin-bottom: 16px;
     }
 
-    .buttonContainer {
-        margin-top: 0px;
-    }
+    .buttonContainer { margin-top: 0px; }
 }
