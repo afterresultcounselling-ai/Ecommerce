@@ -5,7 +5,7 @@ import Layout from '../components/Layout/Layout';
 import Banner from '../components/Banner';
 import Container from '../components/Container';
 
-const FaqPage = (props) => {
+const FaqPage = () => {
   return (
     <Layout>
       <div className={styles.root}>
@@ -16,97 +16,102 @@ const FaqPage = (props) => {
           color={'var(--standard-white)'}
           height={'350px'}
         />
+
         <Container>
+          {/* ── Orders ──────────────────────────────────── */}
           <div className={styles.section}>
             <span>Your Orders</span>
+
             <div className={styles.subSection}>
-              <h3>Deliveries</h3>
+              <h3>How do I track my order?</h3>
               <p>
-                To review the status of your order please visit the "My Orders"
-                section of your Sunspel Account. You should receive an email
-                notification when your package is dispatched. Please check your
-                email inbox and your junk filter.
+                Once your order is dispatched you will receive a shipping confirmation email with a tracking link. You can also visit the <strong>My Orders</strong> section in your account to check the current status — Placed, Shipped, On the Way, or Delivered.
               </p>
               <p>
-                We dispatch all orders within 24 hours of being placed. During
-                our sale periods it can get very busy in our factory, orders may
-                take a little longer to be dispatched so please add five working
-                days just in case.
-              </p>
-              <p>
-                If there’s something you want to know about your order, please
-                get in touch with us at customerservice@example.com or call us
-                on +44 (0)115 111 1111.
+                If you haven&rsquo;t received a confirmation email within 24 hours of placing your order, please check your spam or junk folder. Still nothing? Email us at <a href={'mailto:support@yourstore.com'}>support@yourstore.com</a>.
               </p>
             </div>
+
             <div className={styles.subSection}>
-              <h3>Returns & Exchanges</h3>
+              <h3>How long does delivery take?</h3>
               <p>
-                To review the status of your order please visit the "My Orders"
-                section of your Sunspel Account. You should receive an email
-                notification when your package is dispatched. Please check your
-                email inbox and your junk filter.
+                We dispatch all orders within 1–2 business days. Standard delivery within India typically takes 4–7 business days depending on your location. You will receive tracking details once your order has shipped.
+              </p>
+            </div>
+
+            <div className={styles.subSection}>
+              <h3>Can I cancel or modify my order?</h3>
+              <p>
+                Orders can be cancelled or modified within 12 hours of being placed. Please contact us immediately at <a href={'mailto:support@yourstore.com'}>support@yourstore.com</a> with your order ID. Once dispatched, cancellations are no longer possible.
+              </p>
+            </div>
+
+            <div className={styles.subSection}>
+              <h3>Returns &amp; Exchanges</h3>
+              <p>
+                We accept returns within 7 days of delivery for items that are unused, unwashed, and in their original condition with tags attached. To initiate a return, email us at <a href={'mailto:support@yourstore.com'}>support@yourstore.com</a> with your order ID and reason for return.
               </p>
               <p>
-                We dispatch all orders within 24 hours of being placed. During
-                our sale periods it can get very busy in our factory, orders may
-                take a little longer to be dispatched so please add five working
-                days just in case.
+                Exchanges are processed after we receive and inspect the returned item. Refunds are credited to the original payment method within 5–7 business days of approval.
               </p>
             </div>
           </div>
 
+          {/* ── Payment ─────────────────────────────────── */}
           <div className={styles.section}>
-            <span>Payment</span>
+            <span>Payment &amp; Pricing</span>
+
             <div className={styles.subSection}>
-              <h3>Shipping Rates</h3>
+              <h3>What payment methods do you accept?</h3>
               <p>
-                To review the status of your order please visit the "My Orders"
-                section of your Sunspel Account. You should receive an email
-                notification when your package is dispatched. Please check your
-                email inbox and your junk filter.
-              </p>
-              <p>
-                We dispatch all orders within 24 hours of being placed. During
-                our sale periods it can get very busy in our factory, orders may
-                take a little longer to be dispatched so please add five working
-                days just in case.
-              </p>
-              <p>
-                If there’s something you want to know about your order, please
-                get in touch with us at customerservice@example.com call us on
-                +44 (0)115 111 1111.
+                We accept all major payment methods via Razorpay — including UPI, credit cards, debit cards, net banking, and popular wallets like Paytm and PhonePe. All transactions are secured with 256-bit SSL encryption.
               </p>
             </div>
+
             <div className={styles.subSection}>
-              <h3>Currency</h3>
+              <h3>What currency are prices shown in?</h3>
               <p>
-                Our website automatically selects the currency that matches your
-                delivery location. You can change this manually in the top left
-                hand corner of the page.
-              </p>
-              <p>
-                For deliveries to the UK, we will bill you in Pounds Sterling
-                (£), to the European Union in Euros (€), to the US in Dollars
-                ($), and to the Rest of World in Pounds Sterling (£).
-              </p>
-              <p>
-                Standard rate VAT is included in all orders to the UK and
-                Europe. Orders to the Rest of the World do not include VAT.
-                Where applicable, you will be responsible for any local country
-                import duty.
+                All prices on our website are displayed in <strong>Indian Rupees (₹ INR)</strong>. The price you see at checkout is the exact amount you will be charged — no hidden fees or conversion charges.
               </p>
             </div>
+
             <div className={styles.subSection}>
-              <h3>Suspect Fraud?</h3>
+              <h3>Is there a shipping charge?</h3>
               <p>
-                Given our high levels of security, it’s very unlikely fraudulent
-                use of your card will take place on our website. But if a
-                fraudulent transaction does take place, first contact your
-                credit or debit card company so they can protect your card and
-                reimburse you. Then let us know at customerservice@example.com
-                and we will work with your card company to minimise any further
-                inconvenience to you.
+                We charge a flat shipping fee of <strong>₹99</strong> on orders below ₹999. Orders above ₹999 qualify for <strong>free shipping</strong> automatically — no coupon needed.
+              </p>
+            </div>
+
+            <div className={styles.subSection}>
+              <h3>What if my payment fails?</h3>
+              <p>
+                If your payment is deducted but your order is not confirmed, please do not attempt to pay again. Contact us at <a href={'mailto:support@yourstore.com'}>support@yourstore.com</a> with your email address and transaction reference. We will investigate and resolve within 24 business hours.
+              </p>
+            </div>
+          </div>
+
+          {/* ── Products ────────────────────────────────── */}
+          <div className={styles.section}>
+            <span>Products &amp; Sizing</span>
+
+            <div className={styles.subSection}>
+              <h3>What sizes do you offer?</h3>
+              <p>
+                Our plain t-shirts are available in sizes XS, S, M, L, and XL. We recommend checking the size guide on each product page before ordering. If you are between sizes, we suggest sizing up for a relaxed fit.
+              </p>
+            </div>
+
+            <div className={styles.subSection}>
+              <h3>What fabric are the t-shirts made of?</h3>
+              <p>
+                Our t-shirts are made from 100% combed cotton, chosen for its softness, breathability, and durability. Each piece is pre-shrunk to maintain its shape after washing.
+              </p>
+            </div>
+
+            <div className={styles.subSection}>
+              <h3>How do I care for my t-shirt?</h3>
+              <p>
+                Machine wash cold (30°C) with similar colours. Do not bleach. Tumble dry on low or air dry flat. Iron on low heat if needed. Avoid wringing to preserve shape.
               </p>
             </div>
           </div>
