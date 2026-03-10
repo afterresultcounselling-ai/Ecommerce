@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { navigate } from 'gatsby';
 import * as styles from './viewed.module.css';
 
@@ -7,15 +7,19 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import Layout from '../../components/Layout/Layout';
 import ProductCardGrid from '../../components/ProductCardGrid';
 
-import { isAuth } from '../../helpers/general';
-import { generateMockProductData } from '../../helpers/mock';
+// Recently viewed products are written to localStorage by the product detail page
+// key: 'recentlyViewed' → array of product objects (max 12)
 
-const RecentlyViewedPage = (props) => {
-  const recentlyViewed = generateMockProductData(3, 'shirt');
+const RecentlyViewedPage = () => {
+  const [viewed, setViewed] = useState([]);
 
-  if (isAuth() === false) {
-    navigate('/login');
-  }
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem('user') || 'null');
+    if (!stored) { navigate('/login'); return; }
+
+    const recent = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+    setViewed(recent);
+  }, []);
 
   return (
     <Layout>
@@ -29,14 +33,24 @@ const RecentlyViewedPage = (props) => {
         />
         <div className={styles.root}>
           <h1>Recently Viewed</h1>
-          <div className={styles.gridContainer}>
-            <ProductCardGrid
-              spacing={true}
-              height={480}
-              columns={3}
-              data={recentlyViewed}
-            />
-          </div>
+
+          {viewed.length === 0 ? (
+            <div className={styles.emptyState}>
+              <p>You haven&rsquo;t viewed any products yet.</p>
+              <span className={styles.shopLink} onClick={() => navigate('/shop')}>
+                Start Browsing →
+              </span>
+            </div>
+          ) : (
+            <div className={styles.gridContainer}>
+              <ProductCardGrid
+                spacing={true}
+                height={480}
+                columns={3}
+                data={viewed}
+              />
+            </div>
+          )}
         </div>
       </AccountLayout>
     </Layout>
