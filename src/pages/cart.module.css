@@ -11,11 +11,11 @@
     padding-bottom: 88px;
 }
 
-.summaryContainer, .cartContainer {
+.summaryContainer {
     margin-top: 72px;
 }
 
-.summaryContainer h3{
+.summaryContainer h3 {
     text-align: center;
     font-weight: normal;
     font-size: 52px;
@@ -25,16 +25,137 @@
 .cartContainer {
     display: grid;
     grid-template-columns: 1fr 420px;
+    margin-top: 72px;
 }
 
 .cartItemsContainer {
     margin-right: 40px;
 }
 
-.cartItemsContainer > div {
+.cartItemWrapper {
     margin-bottom: 40px;
+    border-bottom: 1px solid var(--bg-light-gray);
+    padding-bottom: 24px;
 }
 
+.itemActions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding-left: 8px;
+}
+
+.qtyControl {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid var(--standard-black);
+    padding: 4px 12px;
+}
+
+.qtyControl button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.qtyControl span {
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 20px;
+    text-align: center;
+}
+
+.removeBtn {
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    color: var(--grey-placeholder);
+    transition: color 0.2s;
+}
+
+.removeBtn:hover { color: var(--standard-black); }
+
+/* ── Order Summary Box ──────────────────────────── */
+.summaryBox {
+    background: var(--standard-white);
+    padding: 32px;
+    border: 1px solid var(--bg-light-gray);
+}
+
+.summaryBox h4 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 17px;
+    margin-bottom: 16px;
+}
+
+.totalRow {
+    font-weight: 600;
+    font-size: 16px;
+    border-top: 1px solid var(--bg-light-gray);
+    padding-top: 16px;
+    margin-top: 8px;
+}
+
+.freeShipNote {
+    font-size: 12px;
+    color: var(--standard-gold);
+    margin-bottom: 16px;
+}
+
+.checkoutBtn {
+    width: 100%;
+    background: var(--standard-black);
+    color: var(--standard-white);
+    border: none;
+    padding: 18px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: background 0.2s;
+}
+
+.checkoutBtn:hover    { background: var(--standard-gold); }
+.checkoutBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.secureNote {
+    text-align: center;
+    font-size: 12px;
+    color: var(--grey-placeholder);
+    margin-top: 12px;
+}
+
+/* ── Empty state ────────────────────────────────── */
+.emptyCart {
+    text-align: center;
+    padding: 80px 0;
+}
+
+.emptyCart p {
+    font-size: 18px;
+    margin-bottom: 24px;
+    color: var(--grey-placeholder);
+}
+
+/* ── Header ─────────────────────────────────────── */
 .shoppingContainer {
     display: flex;
     align-items: center;
@@ -45,15 +166,12 @@
     font-weight: 500;
     font-size: 14px;
     line-height: 17px;
-
     display: flex;
     align-items: center;
     color: var(--standard-black);
 }
 
-.shopLink:hover {
-    color: var(--standard-gold);
-}
+.shopLink:hover { color: var(--standard-gold); }
 
 .shopLink svg {
     transform: rotate(-180deg);
@@ -73,23 +191,16 @@
     font-size: 14px;
     line-height: 17px;
     color: var(--standard-black);
-    transition: color ease-in-out 0.3s;
-    cursor: pointer;
     transition: all ease-in-out 0.3s;
+    cursor: pointer;
 }
 
-.loginContainer a:hover {
-    color: var(--standard-gold);
-}
+.loginContainer a:hover { color: var(--standard-gold); }
 
+/* ── Responsive ──────────────────────────────────── */
 @media (max-width: 1150px) {
-    .cartItemsContainer {
-        margin-right: 20px;
-    }
-
-    .cartContainer {
-        grid-template-columns: 1.5fr 1fr;
-    }
+    .cartItemsContainer { margin-right: 20px; }
+    .cartContainer { grid-template-columns: 1.5fr 1fr; }
 }
 
 @media (max-width: 900px) {
@@ -103,12 +214,8 @@
         line-height: 38px;
     }
 
-    .continueShopping {
-        display: none;
-    }
-
-    .headerContainer {
-        margin: 0px 8px;
-    }
-    
+    .continueShopping { display: none; }
+    .headerContainer  { margin: 0px 8px; }
+    .cartItemsContainer { margin-right: 0; margin-bottom: 40px; }
+    .summaryBox { padding: 24px 16px; }
 }
