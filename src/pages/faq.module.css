@@ -1,9 +1,8 @@
-.root {
-
-}
+.root {}
 
 .section {
     margin-top: 48px;
+    margin-bottom: 48px;
 }
 
 .subSection {
@@ -14,6 +13,9 @@
     font-size: 16px;
     line-height: 26px;
     font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--standard-gold);
 }
 
 .section h3 {
@@ -24,9 +26,14 @@
 }
 
 .section p {
-    margin-top: 32px;
+    margin-top: 16px;
     font-size: 16px;
     line-height: 26px;
+}
+
+.section a {
+    color: var(--standard-gold);
+    text-decoration: underline;
 }
 
 @media (max-width: 800px) {
@@ -35,7 +42,8 @@
         line-height: 26px;
     }
 
-    .section span, .section p {
+    .section span,
+    .section p {
         font-size: 14px;
     }
 }
