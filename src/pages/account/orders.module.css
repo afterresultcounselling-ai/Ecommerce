@@ -1,14 +1,17 @@
 .gridStyle {
     display: grid;
     gap: 8px;
-    align-items: flex-start;
+    align-items: center;
     grid-template-columns:
-    minmax(0, 0.9fr) 
-    minmax(0, 0.3fr) 
-    minmax(0, 0.3fr)
-    minmax(0, 0.4fr)
-    minmax(0, 0.05fr);
-    padding: 24px 42px;
+        minmax(0, 1fr)
+        minmax(0, 0.3fr)
+        minmax(0, 0.3fr)
+        minmax(0, 0.3fr);
+    padding: 16px 24px;
+}
+
+.tableHeaderContainer {
+    border-bottom: 1px solid var(--bg-light-gray);
 }
 
 .tableHeader {
@@ -16,19 +19,132 @@
     font-size: 11px;
     line-height: 25px;
     text-transform: uppercase;
+    color: var(--grey-placeholder);
 }
 
+/* ── Order card ─────────────────────────────────── */
+.orderCard {
+    border: 1px solid var(--bg-light-gray);
+    border-radius: 2px;
+    margin-top: 16px;
+    overflow: hidden;
+}
+
+.orderRowHeader {
+    background: var(--standard-white);
+}
+
+.orderFooter {
+    background: var(--standard-light-grey);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    border-top: 1px solid var(--bg-light-gray);
+}
+
+/* ── Items preview ──────────────────────────────── */
+.orderItemsPreview {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.orderItemRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.itemThumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.itemName {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+}
+
+.itemMeta {
+    display: block;
+    font-size: 12px;
+    color: var(--grey-placeholder);
+    line-height: 16px;
+    margin-top: 2px;
+}
+
+.moreItems {
+    font-size: 12px;
+    color: var(--grey-placeholder);
+    margin-left: 60px;
+}
+
+.orderId {
+    font-size: 11px;
+    color: var(--grey-placeholder);
+    font-family: monospace;
+    margin-top: 4px;
+}
+
+.dateCell {
+    font-size: 13px;
+    color: var(--standard-black);
+    line-height: 18px;
+}
+
+/* ── Empty state ────────────────────────────────── */
+.emptyState {
+    text-align: center;
+    padding: 80px 0;
+    color: var(--grey-placeholder);
+}
+
+.emptyState p {
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.shopLink,
+.reorderLink {
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--standard-gold);
+    text-decoration: underline;
+}
+
+.emptyMessage {
+    padding: 40px 24px;
+    color: var(--grey-placeholder);
+    font-size: 14px;
+}
+
+/* ── Responsive ──────────────────────────────────── */
 @media (max-width: 800px) {
     .tableHeaderContainer {
         display: none;
     }
 
     .gridStyle {
-        gap: 16px;
-        padding: 24px 16px;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-areas:
-          'oid oid oid toggle'
-          'od od od st';
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .orderItemsPreview {
+        grid-column: 1 / -1;
+    }
+
+    .orderFooter {
+        padding: 12px 16px;
     }
 }
