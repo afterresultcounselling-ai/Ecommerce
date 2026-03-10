@@ -4,169 +4,98 @@ import * as styles from './about.module.css';
 import Layout from '../components/Layout/Layout';
 import ThemeLink from '../components/ThemeLink';
 import Container from '../components/Container';
+import { navigate } from 'gatsby';
 import Button from '../components/Button';
-import { toOptimizedImage } from '../helpers/general';
 
-const HowToUsePage = (props) => {
-  let builtRef = useRef();
-  let toolsRef = useRef();
+const HowToUsePage = () => {
+  const orderRef    = useRef();
+  const paymentRef  = useRef();
+  const trackRef    = useRef();
+  const returnRef   = useRef();
 
-  const handleScroll = (elementReference) => {
-    if (elementReference) {
-      window.scrollTo({
-        behavior: 'smooth',
-        top: elementReference.current.offsetTop - 280,
-      });
+  const handleScroll = (ref) => {
+    if (ref?.current) {
+      window.scrollTo({ behavior: 'smooth', top: ref.current.offsetTop - 280 });
     }
   };
 
   return (
     <Layout>
       <div className={styles.root}>
+        {/* ── Sticky nav ─────────────────────────────── */}
         <div className={styles.navContainer}>
-          <ThemeLink onClick={() => handleScroll(builtRef)} to={'#builtby'}>
-            Who built this theme
-          </ThemeLink>
-          <ThemeLink onClick={() => handleScroll(toolsRef)} to={'#tools'}>
-            Compatible technologies
-          </ThemeLink>
+          <ThemeLink onClick={() => handleScroll(orderRef)}   to={'#how-to-order'}>How to Order</ThemeLink>
+          <ThemeLink onClick={() => handleScroll(paymentRef)} to={'#payment'}>Payment</ThemeLink>
+          <ThemeLink onClick={() => handleScroll(trackRef)}   to={'#tracking'}>Tracking</ThemeLink>
+          <ThemeLink onClick={() => handleScroll(returnRef)}  to={'#returns'}>Returns</ThemeLink>
         </div>
+
         <Container size={'large'} spacing={'min'}>
           <div className={styles.content} style={{ paddingTop: '80px' }}>
-            <h3>Built By Matter.</h3>
-            <div id="#builtBy" ref={builtRef}>
-              <p>
-                This theme is proudly brought to you by the team at{' '}
-                <Button target={true} href="https://matterdesign.com.au/">
-                  Matter Design & Digital
-                </Button>{' '}
-                (Matter.).
-              </p>
-              <p>
-                The Sydney theme is built for Netlify as an ecommerce theme
-                suitable for JAMStack archtitecture. This theme is free to use
-                through Netlify’s GitHub account, and can be used with any
-                ecommerce platform that support a headless architecture.
-              </p>
-              <p>
-                Matter. has pre-built connections to microservices available
-                through its JAMM.™ solution. JAMM.™ is a system built to run a
-                headless architecture. JAMM.™ can connect micro-services,
-                orchestrate data and publish websites to an edge network for
-                lighting fast performce. JAMM.™ creates a server-side rendered
-                website that is fast, stable and scalable for high traffic
-                events.
-              </p>
-              <Button target={true} href="https://jamm.matter.design/">
-                Read more about JAMM.™
-              </Button>
-              <img
-                alt={'JAMM Detail'}
-                src={toOptimizedImage('/how-to-use/jamm-sydney-1upd@2x.png')}
-                style={{ display: 'block', height: 'auto' }}
-              />
-            </div>
-            <h3>Best of Breed Tools</h3>
-            <div id={'#tools'} ref={toolsRef}>
-              <p>
-                Headless architecture enables Composable Commerce. What this
-                means is that you can ‘compose’ a suite of best of breed tools
-                together to create an agile ecommerce system. This approach is
-                the opposite end of the spectrum from a traditional ‘Monolithic’
-                architecture where all the functionality and data comes from one
-                source.
-              </p>
-              <p>
-                Why go with Composable Commerce? History has shown, technology
-                innovation comes from new specialised solutions that find better
-                ways to do things. By creating an architecture that taps into
-                this innovation, you are getting a system that is innovating
-                faster than monolithic solutions giving you a competitive
-                advantage.
-              </p>
-              <p>
-                Matter. has been innovating since 2003, and we have aligned with
-                companies that do it best. The following technologies are either
-                currently available or are on our roadmap for JAMM.™.
-              </p>
 
-              <strong>Ecommerce:</strong>
-              <ul>
-                <li>BigCommerce</li>
-                <li>VTEX (roadmap)</li>
-                <li>Commercetools (roadmap)</li>
-              </ul>
+            {/* ── How to Order ──────────────────────────── */}
+            <h3 ref={orderRef} id={'how-to-order'}>How to Order</h3>
+            <p>Ordering from us is simple and takes just a few minutes.</p>
+            <ol>
+              <li><strong>Browse</strong> — Visit our <Button href={'/shop'} onClick={() => navigate('/shop')}>Shop</Button> page to explore our plain t-shirt collection.</li>
+              <li><strong>Select</strong> — Choose your preferred colour and size. Refer to the size guide on each product page if unsure.</li>
+              <li><strong>Add to Bag</strong> — Click &ldquo;Add to Cart&rdquo; and review your bag. You can adjust quantities or remove items any time.</li>
+              <li><strong>Create an Account</strong> — You need a free account to place an order. <Button href={'/signup'} onClick={() => navigate('/signup')}>Sign up here</Button> — it takes under a minute using just your email and a one-time code.</li>
+              <li><strong>Checkout</strong> — Proceed to checkout, confirm your delivery address, and pay securely via Razorpay.</li>
+            </ol>
+            <p>
+              All prices are in <strong>Indian Rupees (₹ INR)</strong>. Free shipping applies automatically on orders above ₹999.
+            </p>
 
-              <strong>Content Management Systems (CMS):</strong>
-              <ul>
-                <li>Contentful</li>
-                <li>WordPress</li>
-                <li>Sanity</li>
-                <li>Builder.io</li>
-              </ul>
+            {/* ── Payment ───────────────────────────────── */}
+            <h3 ref={paymentRef} id={'payment'} style={{ marginTop: '64px' }}>Payment</h3>
+            <p>
+              We use <strong>Razorpay</strong> as our payment gateway — one of India&rsquo;s most trusted payment platforms. All transactions are encrypted and secure.
+            </p>
+            <p>We accept:</p>
+            <ul>
+              <li>UPI (Google Pay, PhonePe, Paytm, BHIM, etc.)</li>
+              <li>Credit Cards &amp; Debit Cards (Visa, Mastercard, RuPay)</li>
+              <li>Net Banking (all major Indian banks)</li>
+              <li>Popular Wallets</li>
+            </ul>
+            <p>
+              You will receive an order confirmation email immediately after a successful payment. If your payment fails or is deducted without confirmation, email us at <a href={'mailto:support@yourstore.com'}>support@yourstore.com</a>.
+            </p>
 
-              <strong>Advanced Search:</strong>
-              <ul>
-                <li>Algolia</li>
-                <li>Searchspring (roadmap)</li>
-                <li>XO (roadmap)</li>
-                <li>Syte (roadmap)</li>
-              </ul>
+            {/* ── Tracking ──────────────────────────────── */}
+            <h3 ref={trackRef} id={'tracking'} style={{ marginTop: '64px' }}>Tracking Your Order</h3>
+            <p>
+              After dispatch (within 1–2 business days), you will receive a shipping confirmation email with a tracking link. You can also log into your account and visit <strong>My Orders</strong> to see real-time status updates:
+            </p>
+            <ul>
+              <li><strong>Placed</strong> — Order received and confirmed</li>
+              <li><strong>Shipped</strong> — Package handed to courier</li>
+              <li><strong>On the Way</strong> — Out for delivery in your area</li>
+              <li><strong>Delivered</strong> — Package delivered to your address</li>
+              <li><strong>Cancelled</strong> — Order cancelled (refund initiated if applicable)</li>
+            </ul>
+            <p>
+              You will receive an email notification each time your order status changes.
+            </p>
 
-              <strong>Product Information Management (PIM):</strong>
-              <ul>
-                <li>Akeneo</li>
-              </ul>
+            {/* ── Returns ───────────────────────────────── */}
+            <h3 ref={returnRef} id={'returns'} style={{ marginTop: '64px' }}>Returns &amp; Refunds</h3>
+            <p>
+              We have a <strong>7-day return policy</strong> from the date of delivery. Items must be unused, unwashed, and in their original condition with tags attached.
+            </p>
+            <p>To initiate a return:</p>
+            <ol>
+              <li>Email <a href={'mailto:support@yourstore.com'}>support@yourstore.com</a> with your order ID and reason for return.</li>
+              <li>Our team will review and respond within 1 business day with return instructions.</li>
+              <li>Once we receive and inspect the item, your refund will be processed within 5–7 business days to your original payment method.</li>
+            </ol>
+            <p style={{ marginTop: '40px' }}>
+              Still have questions? Visit our <Button href={'/faq'} onClick={() => navigate('/faq')}>FAQ page</Button> or <Button href={'/support#contact'} onClick={() => navigate('/support#contact')}>Contact Us</Button>.
+            </p>
 
-              <strong>Marketing Automation:</strong>
-              <ul>
-                <li>Klaviyo</li>
-                <li>Ortto</li>
-                <li>Dot Digital</li>
-                <li>Omnisend</li>
-              </ul>
-
-              <strong>Customer Support:</strong>
-              <ul>
-                <li>Gorgias</li>
-                <li>Zendesk</li>
-              </ul>
-
-              <strong>Reviews and User Generated Content:</strong>
-              <ul>
-                <li>Yotpo</li>
-                <li>Trustpilot</li>
-                <li>Reviews.io</li>
-              </ul>
-
-              <strong>Physical Locations:</strong>
-              <ul>
-                <li>Localisr.io</li>
-              </ul>
-
-              <p>
-                Our team are fanatical about site speed and the agility of a
-                composable commerce approach. If you need help to setup a
-                Headless architecture, we’d love to hear from you.
-              </p>
-
-              <p>
-                <Button
-                  target={true}
-                  href="https://www.matterdesign.com.au/contact/"
-                >
-                  Contact the team at Matter.
-                </Button>
-              </p>
-            </div>
           </div>
         </Container>
-        <div className={styles.imageContainer}>
-          <img
-            alt={'Best of Breed tools'}
-            src={toOptimizedImage('/how-to-use/logos@2x.png')}
-          ></img>
-        </div>
       </div>
     </Layout>
   );
