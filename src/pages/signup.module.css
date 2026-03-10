@@ -40,6 +40,43 @@
     line-height: 17px;
 }
 
+.resendLink {
+    cursor: pointer;
+    text-decoration: underline;
+    color: var(--standard-gold);
+}
+
+/* ── OTP boxes ─────────────────────────────────── */
+.otpRow {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.otpBox {
+    width: 48px;
+    height: 56px;
+    border: 1px solid var(--standard-black);
+    border-radius: 4px;
+    font-size: 22px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.otpBox:focus {
+    border-color: var(--standard-gold);
+}
+
+.otpError {
+    display: block;
+    color: red;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
 .forgotLink:hover {
     color: var(--standard-gold);
     border-bottom: 1px solid var(--standard-gold);
@@ -62,5 +99,11 @@
 
     .attributeGridContainer {
         display: none;
+    }
+
+    .otpBox {
+        width: 40px;
+        height: 48px;
+        font-size: 18px;
     }
 }
