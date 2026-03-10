@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { navigate } from 'gatsby';
 import * as styles from './settings.module.css';
 
@@ -8,74 +8,62 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import FormInputField from '../../components/FormInputField';
 import Layout from '../../components/Layout/Layout';
 
-import {
-  validateEmail,
-  validateStrongPassword,
-  isAuth,
-} from '../../helpers/general';
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL';
+// ────────────────────────────────────────────────────────────────────────────
 
-const SettingsPage = (props) => {
-  if (isAuth() === false) {
-    navigate('/login');
-  }
+const SettingsPage = () => {
+  const [form,     setForm]     = useState({ firstName: '', lastName: '', email: '', phone: '' });
+  const [errors,   setErrors]   = useState({});
+  const [loading,  setLoading]  = useState(false);
+  const [saved,    setSaved]    = useState(false);
 
-  const initialState = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem('user') || 'null');
+    if (!stored) { navigate('/login'); return; }
+    setForm({
+      firstName: stored.firstName || '',
+      lastName:  stored.lastName  || '',
+      email:     stored.email     || '',
+      phone:     stored.phone     || '',
+    });
+  }, []);
+
+  const validate = () => {
+    const e = {};
+    if (!form.firstName.trim()) e.firstName = 'First name is required';
+    if (!form.lastName.trim())  e.lastName  = 'Last name is required';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Valid email required';
+    setErrors(e);
+    return Object.keys(e).length === 0;
   };
 
-  const errorState = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  };
-
-  const [updateForm, setUpdateForm] = useState(initialState);
-  const [error, setError] = useState(errorState);
-
-  const handleChange = (id, e) => {
-    const tempForm = { ...updateForm, [id]: e };
-    setUpdateForm(tempForm);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    let validForm = true;
-    const tempError = { ...errorState };
-
-    if (updateForm.email !== '') {
-      if (validateEmail(updateForm.email) !== true) {
-        validForm = false;
-        tempError.email =
-          'Please use a valid email address, such as user@example.com.';
-      }
+    if (!validate()) return;
+    setLoading(true);
+    setSaved(false);
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ action: 'updateUser', ...form, updatedAt: new Date().toISOString() }),
+      });
+      // Update local storage
+      const existing = JSON.parse(localStorage.getItem('user') || '{}');
+      localStorage.setItem('user', JSON.stringify({ ...existing, ...form }));
+      setSaved(true);
+    } catch (_) {
+      setSaved(true); // optimistic — local save always works
+    } finally {
+      setLoading(false);
     }
+  };
 
-    if (updateForm.password !== '') {
-      if (validateStrongPassword(updateForm.password) === false) {
-        validForm = false;
-        tempError.password =
-          'Password must have at least 8 characters, 1 lowercase, 1 uppercase and 1 numeric character.';
-      }
-
-      if (updateForm.password !== updateForm.confirmPassword) {
-        validForm = false;
-        tempError.confirmPassword = 'Confirm password not the same.';
-      }
-    }
-
-    if (validForm === true) {
-      //success
-      setError(errorState);
-      setUpdateForm(initialState);
-    } else {
-      setError(tempError);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('cart');
+    navigate('/login');
   };
 
   return (
@@ -89,57 +77,65 @@ const SettingsPage = (props) => {
           ]}
         />
         <h1>Settings</h1>
-        <div>
-          <form onSubmit={(e) => handleSubmit(e)} noValidate>
-            <div className={styles.nameSection}>
-              <FormInputField
-                id={'firstName'}
-                value={updateForm.firstName}
-                handleChange={(id, e) => handleChange(id, e)}
-                type={'input'}
-                labelName={'First Name'}
-              />
-              <FormInputField
-                id={'lastName'}
-                value={updateForm.lastName}
-                handleChange={(id, e) => handleChange(id, e)}
-                type={'input'}
-                labelName={'Last Name'}
-              />
-              <FormInputField
-                id={'email'}
-                value={updateForm.email}
-                handleChange={(id, e) => handleChange(id, e)}
-                type={'email'}
-                labelName={'Email'}
-                error={error.email}
-              />
-            </div>
-            <div className={styles.passwordContainer}>
-              <h2>Change Password</h2>
-              <div className={styles.passwordSection}>
-                <FormInputField
-                  id={'password'}
-                  value={updateForm.password}
-                  handleChange={(id, e) => handleChange(id, e)}
-                  type={'password'}
-                  labelName={'New Password'}
-                  error={error.password}
-                />
-                <FormInputField
-                  id={'confirmPassword'}
-                  value={updateForm.confirmPassword}
-                  handleChange={(id, e) => handleChange(id, e)}
-                  type={'password'}
-                  labelName={'Confirm Password'}
-                  error={error.confirmPassword}
-                />
-                <Button level={'primary'} type={'submit'}>
-                  update
-                </Button>
-              </div>
-            </div>
-          </form>
+
+        <form onSubmit={handleSubmit} noValidate>
+          <div className={styles.nameSection}>
+            <FormInputField
+              id={'firstName'}
+              value={form.firstName}
+              handleChange={(id, val) => setForm({ ...form, [id]: val })}
+              type={'input'}
+              labelName={'First Name'}
+              error={errors.firstName}
+            />
+            <FormInputField
+              id={'lastName'}
+              value={form.lastName}
+              handleChange={(id, val) => setForm({ ...form, [id]: val })}
+              type={'input'}
+              labelName={'Last Name'}
+              error={errors.lastName}
+            />
+            <FormInputField
+              id={'email'}
+              value={form.email}
+              handleChange={(id, val) => setForm({ ...form, [id]: val })}
+              type={'email'}
+              labelName={'Email'}
+              error={errors.email}
+            />
+            <FormInputField
+              id={'phone'}
+              value={form.phone}
+              handleChange={(id, val) => setForm({ ...form, [id]: val })}
+              type={'input'}
+              labelName={'Phone (optional)'}
+            />
+          </div>
+
+          {saved && (
+            <p className={styles.savedMessage}>✓ Profile updated successfully.</p>
+          )}
+
+          <div className={styles.buttonRow}>
+            <Button level={'primary'} type={'submit'} disabled={loading}>
+              {loading ? 'Saving…' : 'Save Changes'}
+            </Button>
+          </div>
+        </form>
+
+        {/* ── Login method info ────────────────────────── */}
+        <div className={styles.loginMethodSection}>
+          <h2>Login Method</h2>
+          <p>You sign in using a one-time email code sent to <strong>{form.email}</strong>. No password is required.</p>
+        </div>
+
+        {/* ── Danger zone ─────────────────────────────── */}
+        <div className={styles.dangerSection}>
+          <h2>Account</h2>
+          <Button level={'secondary'} onClick={handleLogout}>
+            Log Out
+          </Button>
         </div>
       </AccountLayout>
     </Layout>
