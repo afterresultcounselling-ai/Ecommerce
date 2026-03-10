@@ -1,7 +1,3 @@
-.form {
-
-}
-
 .nameSection {
     margin-top: 40px;
     display: grid;
@@ -9,36 +5,60 @@
     gap: 40px;
 }
 
-.passwordSection {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px 40px; 
+.savedMessage {
+    margin-top: 24px;
+    font-size: 14px;
+    color: #16A34A;
+    font-weight: 500;
 }
 
-.passwordContainer {
-    margin-top: 100px;
+.buttonRow {
+    margin-top: 40px;
 }
 
-.passwordContainer h2 {
-    font-size: 32px;
-    line-height: 38px;
+/* ── Login method section ───────────────────────── */
+.loginMethodSection {
+    margin-top: 80px;
+    padding-top: 48px;
+    border-top: 1px solid var(--bg-light-gray);
+}
+
+.loginMethodSection h2 {
+    font-size: 24px;
+    line-height: 30px;
     font-weight: normal;
-    margin-bottom: 40px;
+    margin-bottom: 16px;
 }
 
+.loginMethodSection p {
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--grey-placeholder);
+}
+
+/* ── Danger zone ────────────────────────────────── */
+.dangerSection {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--bg-light-gray);
+}
+
+.dangerSection h2 {
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: normal;
+    margin-bottom: 24px;
+}
+
+/* ── Responsive ──────────────────────────────────── */
 @media (max-width: 800px) {
-    .nameSection, .passwordSection {
+    .nameSection {
         grid-template-columns: 1fr;
         gap: 0px;
     }
 
-    .passwordContainer h2 {
-        font-size: 22px;
-        line-height: 26px;
-        margin-bottom: 24px;
-    }
-
-    .passwordContainer {
-        margin-top: 24px;
+    .loginMethodSection h2,
+    .dangerSection h2 {
+        font-size: 20px;
     }
 }
