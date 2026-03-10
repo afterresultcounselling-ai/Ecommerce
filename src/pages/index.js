@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import AttributeGrid from '../components/AttributeGrid';
 import Container from '../components/Container';
@@ -11,53 +12,68 @@ import ProductCardGrid from '../components/ProductCardGrid';
 import Quote from '../components/Quote';
 import Title from '../components/Title';
 
-import { generateMockBlogData, generateMockProductData } from '../helpers/mock';
-
 import * as styles from './index.module.css';
 import { Link, navigate } from 'gatsby';
 import { toOptimizedImage } from '../helpers/general';
 
-const IndexPage = () => {
-  const newArrivals = generateMockProductData(3, 'shirt');
-  const blogData = generateMockBlogData(3);
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL';
+// ────────────────────────────────────────────────────────────────────────────
 
-  const goToShop = () => {
-    navigate('/shop');
-  };
+const IndexPage = () => {
+  const [newArrivals, setNewArrivals] = useState([]);
+
+  useEffect(() => {
+    // Log homepage visit
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({
+        action:    'logVisit',
+        page:      'home',
+        referrer:  typeof document !== 'undefined' ? document.referrer : '',
+        timestamp: new Date().toISOString(),
+      }),
+    }).catch(() => {});
+
+    // Fetch newest products for the "New Arrivals" strip
+    fetch(`${APPS_SCRIPT_URL}?action=getProducts&category=tshirts&limit=3&sort=newest`)
+      .then((r) => r.json())
+      .then((data) => setNewArrivals(data.products || []))
+      .catch(() => {});
+  }, []);
 
   return (
     <Layout disablePaddingBottom>
-      {/* Hero Container */}
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
       <Hero
         maxWidth={'500px'}
         image={'/banner1.png'}
-        title={'Essentials for a cold winter'}
-        subtitle={'Discover Autumn Winter 2021'}
-        ctaText={'shop now'}
-        ctaAction={goToShop}
+        title={'Everyday Essentials'}
+        subtitle={'Plain T-Shirts. Crafted for Comfort.'}
+        ctaText={'Shop Now'}
+        ctaAction={() => navigate('/shop')}
       />
 
-      {/* Message Container */}
+      {/* ── Brand message ─────────────────────────────────────────────── */}
       <div className={styles.messageContainer}>
         <p>
-          This is a demonstration of the Sydney theme for verse by{' '}
-          <span className={styles.gold}>matter design.</span>
+          Minimal. Comfortable. <span className={styles.gold}>Made to last.</span>
         </p>
         <p>
-          wear by <span className={styles.gold}>sunspel</span> and{' '}
-          <span className={styles.gold}>scotch&soda</span>
+          100% combed cotton · Free shipping above <span className={styles.gold}>₹999</span>
         </p>
       </div>
 
-      {/* Collection Container */}
+      {/* ── Collection ────────────────────────────────────────────────── */}
       <div className={styles.collectionContainer}>
         <Container size={'large'}>
-          <Title name={'New Collection'} />
+          <Title name={'Our Collection'} />
           <ProductCollectionGrid />
         </Container>
       </div>
 
-      {/* New Arrivals */}
+      {/* ── New Arrivals ──────────────────────────────────────────────── */}
       <div className={styles.newArrivalsContainer}>
         <Container>
           <Title name={'New Arrivals'} link={'/shop'} textLink={'view all'} />
@@ -71,7 +87,7 @@ const IndexPage = () => {
         </Container>
       </div>
 
-      {/* Highlight  */}
+      {/* ── Highlight ─────────────────────────────────────────────────── */}
       <div className={styles.highlightContainer}>
         <Container size={'large'} fullMobile>
           <Highlight
@@ -79,67 +95,63 @@ const IndexPage = () => {
             altImage={'highlight image'}
             miniImage={'/highlightmin.png'}
             miniImageAlt={'mini highlight image'}
-            title={'Luxury Knitwear'}
-            description={`This soft lambswool jumper is knitted in Scotland, using yarn from one of the world's oldest spinners based in Fife`}
+            title={'Pure Cotton Comfort'}
+            description={
+              'Our plain t-shirts are knitted from 100% combed cotton — pre-shrunk, breathable, and built for everyday wear.'
+            }
             textLink={'shop now'}
             link={'/shop'}
           />
         </Container>
       </div>
 
-      {/* Promotion */}
+      {/* ── Promotion banner ─────────────────────────────────────────── */}
       <div className={styles.promotionContainer}>
-        <Hero image={toOptimizedImage('/banner2.png')} title={`-50% off \n All Essentials`} />
+        <Hero image={toOptimizedImage('/banner2.png')} title={`Free Shipping\nAbove ₹999`} />
         <div className={styles.linkContainers}>
-          <Link to={'/shop'}>WOMAN</Link>
-          <Link to={'/shop'}>MAN</Link>
+          <Link to={'/shop'}>Shop Now</Link>
+          <Link to={'/faq'}>FAQs</Link>
         </div>
       </div>
 
-      {/* Quote */}
+      {/* ── Quote ─────────────────────────────────────────────────────── */}
       <Quote
         bgColor={'var(--standard-light-grey)'}
-        title={'about Sydney'}
+        title={'our philosophy'}
         quote={
-          '“We believe in two things: the pursuit of quality in everything we do, and looking after one another. Everything else should take care of itself.”'
+          '"Simplicity is the ultimate sophistication. We make plain t-shirts because we believe the best basics let you — not the label — speak."'
         }
       />
 
-      {/* Blog Grid */}
-      <div className={styles.blogsContainer}>
-        <Container size={'large'}>
-          <Title name={'Journal'} subtitle={'Notes on life and style'} />
-          <BlogPreviewGrid data={blogData} />
-        </Container>
+      {/* ── Social proof ──────────────────────────────────────────────── */}
+      <div className={styles.socialContainer}>
+        <Title
+          name={'Worn by You'}
+          subtitle={'Tag us to be featured.'}
+        />
+        <div className={styles.socialContentGrid}>
+          <img src={toOptimizedImage('/social/socialMedia1.png')} alt={'customer photo 1'} />
+          <img src={toOptimizedImage('/social/socialMedia2.png')} alt={'customer photo 2'} />
+          <img src={toOptimizedImage('/social/socialMedia3.png')} alt={'customer photo 3'} />
+          <img src={toOptimizedImage('/social/socialMedia4.png')} alt={'customer photo 4'} />
+        </div>
       </div>
 
-      {/* Promotion */}
+      {/* ── Sustainable section ───────────────────────────────────────── */}
       <div className={styles.sustainableContainer}>
         <Hero
           image={toOptimizedImage('/banner3.png')}
-          title={'We are Sustainable'}
+          title={'Simple. Sustainable.'}
           subtitle={
-            'From caring for our land to supporting our people, discover the steps we’re taking to do more for the world around us.'
+            'From ethical sourcing to minimal packaging — we care about how your t-shirt reaches you and what it leaves behind.'
           }
-          ctaText={'read more'}
+          ctaText={'Learn more'}
           maxWidth={'660px'}
           ctaStyle={styles.ctaCustomButton}
+          ctaAction={() => navigate('/faq')}
         />
       </div>
 
-      {/* Social Media */}
-      <div className={styles.socialContainer}>
-        <Title
-          name={'Styled by You'}
-          subtitle={'Tag @sydney to be featured.'}
-        />
-        <div className={styles.socialContentGrid}>
-          <img src={toOptimizedImage(`/social/socialMedia1.png`)} alt={'social media 1'} />
-          <img src={toOptimizedImage(`/social/socialMedia2.png`)} alt={'social media 2'} />
-          <img src={toOptimizedImage(`/social/socialMedia3.png`)} alt={'social media 3'} />
-          <img src={toOptimizedImage(`/social/socialMedia4.png`)} alt={'social media 4'} />
-        </div>
-      </div>
       <AttributeGrid />
     </Layout>
   );
